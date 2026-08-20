@@ -63,54 +63,95 @@
   }
 
   function homeView() {
-    const completed = getProgress().length;
-    const next = course.chapters.find((chapter) => !getProgress().includes(chapter.id)) || course.chapters[0];
+    const completedIds = getProgress();
+    const completed = completedIds.length;
+    const percent = Math.round((completed / course.chapters.length) * 100);
+    const next = course.chapters.find((chapter) => !completedIds.includes(chapter.id)) || course.chapters[0];
+    const skillCloud = [...new Set(course.chapters.flatMap((chapter) => chapter.keywords))].slice(0, 12);
+    const retrievalRef = course.references.find((ref) => ref.id === "retrieval-practice");
     return `
-      <section class="hero">
-        <p class="eyebrow">Giáo trình mở · ${escapeHtml(course.meta.edition)}</p>
-        <h1 class="display-title">Phân tích hệ thống môi trường<br>dựa trên AI và Mô hình LONG</h1>
-        <p class="lead">Giáo trình đại học mở kết nối khoa học hệ thống, GeoAI, carbon, công bằng môi trường và Digital Twin — từ bằng chứng đến quyết định có trách nhiệm.</p>
-        <div class="hero-actions">
-          <a class="button" href="#/chapter/${next.id}">${completed ? "Tiếp tục học" : "Bắt đầu học"} · Chương ${next.number}</a>
-          <a class="button secondary" href="#/about">Xem đề cương học phần</a>
-        </div>
-      </section>
+      <div class="network-layout home-network">
+        <aside class="network-left">
+          <section class="network-card profile-card">
+            <div class="profile-cover"><span>AI</span><span>LONG</span></div>
+            <div class="course-avatar" aria-hidden="true">EL</div>
+            <div class="profile-body">
+              <h2>EnviroLONG</h2>
+              <p>Hồ sơ năng lực · Phân tích hệ thống môi trường</p>
+              <small>${escapeHtml(course.meta.author)} · ${escapeHtml(course.meta.edition)}</small>
+            </div>
+            <div class="profile-stats">
+              <a href="#/chapter/${next.id}"><span>Tiến độ</span><strong>${percent}%</strong></a>
+              <a href="#/references"><span>Nguồn học thuật</span><strong>${course.references.length}</strong></a>
+            </div>
+            <div class="profile-progress"><span style="width:${percent}%"></span></div>
+          </section>
+          <section class="network-card compact-card">
+            <h3>Kỹ năng sẽ xây dựng</h3>
+            <div class="skill-cloud">${skillCloud.map((skill) => `<span>${escapeHtml(skill)}</span>`).join("")}</div>
+          </section>
+          <section class="network-card compact-card downloads-card">
+            <h3>Thư viện khóa học</h3>
+            <a href="downloads/Giao_trinh_AI_LONG.docx"><span>Giáo trình Word</span><b>DOCX</b></a>
+            <a href="downloads/So_tay_giang_vien_AI_LONG.docx"><span>Sổ tay giảng viên</span><b>DOCX</b></a>
+            <a href="downloads/Giao_trinh_AI_LONG.pdf"><span>Ebook hoàn chỉnh</span><b>PDF</b></a>
+            <a href="downloads/Giao_trinh_AI_LONG.epub"><span>Máy đọc sách</span><b>EPUB</b></a>
+          </section>
+        </aside>
 
-      <section class="stat-grid" aria-label="Thông tin học phần">
-        <div class="stat-card"><strong>${course.chapters.length}</strong><span>chương học có cấu trúc</span></div>
-        <div class="stat-card"><strong>4 TC</strong><span>45 tiết lý thuyết · 30 tiết thực hành</span></div>
-        <div class="stat-card"><strong>${course.chapters.length}</strong><span>bài thực hành và đồ án</span></div>
-        <div class="stat-card"><strong>MIT</strong><span>mở để học và phát triển</span></div>
-      </section>
+        <section class="course-feed" aria-label="Dòng nội dung khóa học">
+          <article class="network-card course-hero-card">
+            <div class="course-hero-cover" aria-hidden="true"><span>L</span><span>O</span><span>N</span><span>G</span></div>
+            <div class="course-hero-body">
+              <div class="course-avatar hero-avatar">EL</div>
+              <p class="eyebrow">Giáo trình đại học mở · 4 tín chỉ</p>
+              <h1>Phân tích hệ thống môi trường dựa trên AI và Mô hình LONG</h1>
+              <p class="lead">Một lộ trình nghề nghiệp từ tư duy hệ thống, dữ liệu và GeoAI đến carbon, công bằng môi trường và Digital Twin—mỗi quyết định đều có bằng chứng, bất định và trách nhiệm.</p>
+              <div class="hero-metrics"><span><b>15</b> chương</span><span><b>75</b> câu tự kiểm tra</span><span><b>15</b> lab</span><span><b>4</b> trụ LONG</span></div>
+              <div class="hero-actions"><a class="button" href="#/chapter/${next.id}">${completed ? "Tiếp tục" : "Bắt đầu"} · Chương ${next.number}</a><a class="button secondary" href="#/about">Xem đề cương</a></div>
+            </div>
+          </article>
 
-      <div class="academic-note">
-        <strong>Định vị học thuật</strong>
-        <p>LONG là khung sư phạm do tác giả đề xuất để nối Learning & Life-cycle evidence, Optimization, Network và Governance. Khung không thay thế ISO 14040/14044, LCA, EIA, DPSIR, MCA hay mô hình chuyên ngành. Các thư góp ý được dùng như đầu vào biên tập; tên cá nhân/tổ chức chưa được xác minh không được xem là chứng thực.</p>
-      </div>
+          <article class="network-card feed-card long-post">
+            <div class="post-author"><div class="mini-avatar">L</div><div><strong>Khung LONG</strong><small>Bản đồ tư duy xuyên suốt · 4 năng lực</small></div></div>
+            <p class="post-intro">Dùng bốn câu hỏi này để không lạc trong một bài toán môi trường phức tạp.</p>
+            <div class="long-strip">
+              <div><b>L</b><strong>Learning & Life-cycle</strong><span>Bằng chứng nào đáng tin?</span></div>
+              <div><b>O</b><strong>Optimization</strong><span>Phương án nào khả thi?</span></div>
+              <div><b>N</b><strong>Network</strong><span>Tác động lan truyền ra sao?</span></div>
+              <div><b>G</b><strong>Governance</strong><span>Ai quyết định và chịu trách nhiệm?</span></div>
+            </div>
+          </article>
 
-      <section class="download-band">
-        <div><p class="eyebrow">Bộ giáo trình xuất bản</p><h2>Đọc trực tuyến hoặc tải bản hoàn chỉnh</h2><p>Hai bản Word tách theo người học và giảng viên; ebook PDF/EPUB tối ưu cho đọc, in và tra cứu.</p></div>
-        <div class="download-actions"><a class="button" href="downloads/Giao_trinh_AI_LONG.docx">Word · Giáo trình</a><a class="button secondary" href="downloads/So_tay_giang_vien_AI_LONG.docx">Word · Giảng viên</a><a class="button secondary" href="downloads/Giao_trinh_AI_LONG.pdf">PDF</a><a class="button secondary" href="downloads/Giao_trinh_AI_LONG.epub">EPUB</a></div>
-      </section>
-
-      <section>
-        <div class="section-heading"><div><p class="eyebrow">Khung tích hợp</p><h2>LONG: bốn góc nhìn, một quy trình</h2></div><p>Từ dữ liệu đến quyết định, mỗi trụ trả lời một nhóm câu hỏi khác nhau và phải để lại bằng chứng có thể kiểm toán.</p></div>
-        <div class="long-grid">
-          <article class="long-card"><span>L</span><strong>Learning & Life-cycle</strong><p>Học từ dữ liệu, kiểm kê vòng đời, chất lượng bằng chứng và khả năng tổng quát hóa.</p><div class="long-letter">L</div></article>
-          <article class="long-card"><span>O</span><strong>Optimization</strong><p>Hàm mục tiêu, ràng buộc, đánh đổi Pareto và tính khả thi của phương án.</p><div class="long-letter">O</div></article>
-          <article class="long-card"><span>N</span><strong>Network</strong><p>Dòng vật chất, hạ tầng, sinh thái, bên liên quan và vòng phản hồi.</p><div class="long-letter">N</div></article>
-          <article class="long-card"><span>G</span><strong>Governance</strong><p>Trách nhiệm, pháp lý, tham gia, cảnh báo, đạo đức và giám sát con người.</p><div class="long-letter">G</div></article>
-        </div>
-      </section>
-
-      <section>
-        <div class="section-heading"><div><p class="eyebrow">Lộ trình 4 phần</p><h2>Từ nền tảng đến đồ án</h2></div><p>Học theo thứ tự để xây năng lực, hoặc đi thẳng đến chương phù hợp với công việc hiện tại.</p></div>
-        <div class="path-grid">${course.parts.map((part) => {
+          ${course.parts.map((part) => {
           const chapters = course.chapters.filter((chapter) => chapter.part === part.id);
-          const descriptions = ["", "Ngôn ngữ hệ thống, dữ liệu, mô hình và AI đáng tin cậy.", "Bốn trụ LONG và các công cụ phân tích quyết định.", "Carbon, công bằng, hệ kỹ thuật, sinh thái và đô thị.", "Digital Twin lưu vực và đồ án tích hợp có thể tái lập."];
-          return `<article class="path-card"><small>Phần ${part.id}</small><h3>${escapeHtml(part.title.replace(/^Phần [IVX]+ · /, ""))}</h3><p>${descriptions[part.id]}</p><div class="path-list">${chapters.map((chapter) => `<a href="#/chapter/${chapter.id}"><span>${chapter.number}. ${escapeHtml(chapter.shortTitle)}</span><span>→</span></a>`).join("")}</div></article>`;
-        }).join("")}</div>
-      </section>
+          const descriptions = ["", "Ngôn ngữ hệ thống, dữ liệu, mô hình và AI đáng tin cậy.", "Bốn trụ LONG và công cụ phân tích quyết định.", "Carbon, công bằng, hệ kỹ thuật, sinh thái và đô thị.", "Digital Twin lưu vực và đồ án tích hợp có thể tái lập."];
+          return `<article class="network-card feed-card pathway-post"><div class="post-author"><div class="mini-avatar">${part.id}</div><div><strong>${escapeHtml(part.title)}</strong><small>${escapeHtml(descriptions[part.id])}</small></div></div><div class="course-list">${chapters.map((chapter) => `<a href="#/chapter/${chapter.id}" class="course-row"><span class="chapter-number">${String(chapter.number).padStart(2, "0")}</span><span><strong>${escapeHtml(chapter.shortTitle)}</strong><small>${escapeHtml(chapter.memory.hook)} · 5 câu quiz</small></span><span class="row-arrow">→</span></a>`).join("")}</div></article>`;
+        }).join("")}
+
+          <article class="network-card academic-disclaimer"><strong>Minh bạch học thuật</strong><p>LONG là khung sư phạm do tác giả đề xuất để nối Learning & Life-cycle evidence, Optimization, Network và Governance; không thay thế ISO, LCA, EIA, DPSIR, MCA hoặc mô hình chuyên ngành. Các thư góp ý chưa xác minh là đầu vào biên tập, không phải chứng thực.</p></article>
+        </section>
+
+        <aside class="network-right">
+          <section class="network-card compact-card smart-study">
+            <p class="eyebrow">Học dễ nhớ</p><h3>Nhịp 20–5–2</h3>
+            <ol><li><b>20 phút</b> đọc một mục và vẽ lại móc nhớ.</li><li><b>5 câu</b> tự kiểm tra, nhận phản hồi ngay.</li><li><b>2 ghi chú</b>: một lỗi sai và một điều chưa chắc.</li></ol>
+            ${retrievalRef ? `<a href="${retrievalRef.url}" target="_blank" rel="noreferrer">Cơ sở khoa học và giới hạn ↗</a>` : ""}
+          </section>
+          <section class="network-card compact-card continue-card">
+            <p class="eyebrow">Tiếp tục học</p>
+            <span class="continue-number">${String(next.number).padStart(2, "0")}</span>
+            <h3>${escapeHtml(next.shortTitle)}</h3>
+            <p>${escapeHtml(next.memory.hook)}</p>
+            <a class="button" href="#/chapter/${next.id}">Mở bài giảng</a>
+          </section>
+          <section class="network-card compact-card source-note">
+            <h3>Nguyên tắc nguồn</h3>
+            <p>Ưu tiên tiêu chuẩn, báo cáo liên chính phủ, tài liệu cơ quan phát hành và bài báo có DOI. Mỗi chương có nhiệm vụ đọc cụ thể, không chỉ là một danh sách liên kết.</p>
+            <a href="#/references">Xem toàn bộ học liệu →</a>
+          </section>
+        </aside>
+      </div>
     `;
   }
 
@@ -141,65 +182,89 @@
 
   function chapterView(chapter) {
     const refItems = chapter.refs.map((id) => course.references.find((ref) => ref.id === id)).filter(Boolean);
+    const readingItems = chapter.readings.map((item) => ({ ...item, reference: course.references.find((ref) => ref.id === item.ref) })).filter((item) => item.reference);
     const completed = getProgress().includes(chapter.id);
     const previous = course.chapters[chapter.number - 2];
     const next = course.chapters[chapter.number];
+    const totalRead = readingItems.reduce((sum, item) => sum + item.minutes, 0);
     return `
-      <header class="chapter-head">
-        <div>
-          <p class="eyebrow">${escapeHtml(course.parts.find((part) => part.id === chapter.part).title)}</p>
-          <h1>${escapeHtml(chapter.title)}</h1>
-          <div class="chapter-meta"><span>${escapeHtml(chapter.duration)}</span><span>${escapeHtml(chapter.level)}</span><span>${chapter.keywords.map(escapeHtml).join(" · ")}</span></div>
-        </div>
-        <div class="chapter-badge" aria-label="Chương ${chapter.number}">${String(chapter.number).padStart(2, "0")}</div>
-      </header>
-      <div class="chapter-layout">
-        <article>
-          <section class="lesson-section" id="tong-quan">
-            <h2>Tổng quan chương</h2>
-            <p>${escapeHtml(chapter.summary)}</p>
-            <h3>Chuẩn đầu ra</h3>
-            <ol class="objective-list">${chapter.outcomes.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol>
+      <div class="network-layout lesson-network">
+        <aside class="network-left chapter-left-rail">
+          <section class="network-card chapter-identity">
+            <div class="chapter-mini-cover"></div>
+            <div class="chapter-avatar">${String(chapter.number).padStart(2, "0")}</div>
+            <div class="profile-body"><h2>${escapeHtml(chapter.shortTitle)}</h2><p>${escapeHtml(chapter.level)}</p><small>${escapeHtml(chapter.duration)}</small></div>
+            <div class="skill-cloud">${chapter.keywords.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
           </section>
+          <section class="network-card compact-card memory-card">
+            <p class="eyebrow">Móc ghi nhớ</p><h3>${escapeHtml(chapter.memory.hook)}</h3>
+            <ol>${chapter.memory.points.map((point, index) => `<li><b>${index + 1}</b><span>${escapeHtml(point)}</span></li>`).join("")}</ol>
+          </section>
+          <a class="back-course" href="#/home">← Hồ sơ khóa học</a>
+        </aside>
 
-          ${chapter.sections.map((section) => `<section class="lesson-section" id="${section.id}"><h2>${escapeHtml(section.title)}</h2>${section.html}</section>`).join("")}
+        <article class="course-feed lesson-feed">
+          <header class="network-card chapter-profile-card" id="tong-quan">
+            <div class="chapter-profile-cover"><span>${escapeHtml(course.parts.find((part) => part.id === chapter.part).title)}</span></div>
+            <div class="chapter-profile-body">
+              <div class="chapter-avatar large">${String(chapter.number).padStart(2, "0")}</div>
+              <p class="eyebrow">Bài giảng chuyên đề · 5 câu tự kiểm tra</p>
+              <h1>${escapeHtml(chapter.title)}</h1>
+              <p class="lead">${escapeHtml(chapter.summary)}</p>
+              <div class="chapter-meta"><span>${escapeHtml(chapter.duration)}</span><span>${escapeHtml(chapter.level)}</span><span>${readingItems.length} tài liệu đọc · ${totalRead} phút</span></div>
+              <div class="outcome-panel"><strong>Sau chương này, bạn có thể</strong><ol class="objective-list">${chapter.outcomes.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol></div>
+            </div>
+          </header>
 
-          <section class="lesson-section" id="case-study">
-            <h2>Ca nghiên cứu</h2>
-            <div class="case-study"><small>Case study</small><h3>${escapeHtml(chapter.caseStudy.title)}</h3><p>${escapeHtml(chapter.caseStudy.body)}</p></div>
+          ${chapter.sections.map((section, index) => `<section class="network-card feed-card lesson-post lesson-section" id="${section.id}"><div class="post-author"><div class="mini-avatar">${index + 1}</div><div><strong>Bài giảng ${chapter.number}.${index + 1}</strong><small>Khái niệm → mô hình → quyết định</small></div></div><h2>${escapeHtml(section.title)}</h2>${section.html}<div class="post-actions"><a href="#tu-kiem-tra">Kiểm tra ghi nhớ</a><a href="#doc-sau">Đọc sâu</a></div></section>`).join("")}
+
+          <section class="network-card feed-card lesson-post lesson-section" id="case-study">
+            <div class="post-author"><div class="mini-avatar case">CS</div><div><strong>Nghiên cứu tình huống</strong><small>Chuyển kiến thức thành lập luận quyết định</small></div></div>
+            <div class="case-study"><small>Case study</small><h2>${escapeHtml(chapter.caseStudy.title)}</h2><p>${escapeHtml(chapter.caseStudy.body)}</p></div>
             ${chapter.simulator ? formulaSimulator() : ""}
           </section>
 
-          <section class="lesson-section" id="thuc-hanh">
-            <h2>Thực hành có hướng dẫn</h2>
-            <div class="lab-card"><div class="lab-icon">${escapeHtml(chapter.lab.code)}</div><div><h3>${escapeHtml(chapter.lab.title)}</h3><ul>${chapter.lab.tasks.map((task) => `<li>${escapeHtml(task)}</li>`).join("")}</ul></div></div>
+          <section class="network-card feed-card lesson-post lesson-section" id="thuc-hanh">
+            <div class="post-author"><div class="mini-avatar lab">LAB</div><div><strong>Thực hành có hướng dẫn</strong><small>Sản phẩm có thể kiểm tra và phản biện</small></div></div>
+            <div class="lab-card"><div class="lab-icon">${escapeHtml(chapter.lab.code)}</div><div><h2>${escapeHtml(chapter.lab.title)}</h2><ul>${chapter.lab.tasks.map((task) => `<li>${escapeHtml(task)}</li>`).join("")}</ul></div></div>
             <h3>Bài tập mở rộng và gợi ý</h3>
             <div class="exercise-list">${chapter.exercises.map((exercise) => `<details class="exercise"><summary>${escapeHtml(exercise.title)}</summary><div><b>Gợi ý:</b> ${escapeHtml(exercise.solution)}</div></details>`).join("")}</div>
           </section>
 
-          <section class="lesson-section" id="tu-kiem-tra">
-            <h2>Tự kiểm tra</h2>
+          <section class="network-card feed-card lesson-post lesson-section quiz-section" id="tu-kiem-tra">
+            <div class="post-author"><div class="mini-avatar quiz-avatar">5</div><div><strong>Tự kiểm tra có phản hồi</strong><small>5 câu · Làm sau khi gấp ghi chú</small></div></div>
+            <h2>Kiểm tra mức hiểu, không chỉ trí nhớ</h2><p>Chọn đáp án cho cả năm câu rồi chấm một lần. Đọc phản hồi của cả câu đúng lẫn câu sai; quay lại đúng mục nếu chưa giải thích được bằng lời của mình.</p>
             <div class="quiz" data-chapter="${chapter.id}">${chapter.quiz.map((item, index) => `
               <article class="quiz-card" data-answer="${item.answer}">
-                <fieldset><legend>${index + 1}. ${escapeHtml(item.q)}</legend>${item.options.map((option, optionIndex) => `<label class="quiz-option"><input type="radio" name="${chapter.id}-q${index}" value="${optionIndex}"><span>${escapeHtml(option)}</span></label>`).join("")}</fieldset>
+                <fieldset><legend><span>${index + 1}</span>${escapeHtml(item.q)}</legend>${item.options.map((option, optionIndex) => `<label class="quiz-option"><input type="radio" name="${chapter.id}-q${index}" value="${optionIndex}"><span>${escapeHtml(option)}</span></label>`).join("")}</fieldset>
                 <p class="quiz-feedback">${escapeHtml(item.explain)}</p>
               </article>`).join("")}
-              <button class="button small quiz-submit" type="button">Chấm bài</button>
+              <button class="button quiz-submit" type="button">Chấm 5 câu</button>
             </div>
           </section>
 
-          <section class="lesson-section" id="tai-lieu">
-            <h2>Tài liệu học tập chính</h2>
-            <ul class="reference-list">${refItems.map((ref) => `<li><span>${escapeHtml(ref.type)}</span><cite>${escapeHtml(ref.citation)}</cite><a href="${ref.url}" target="_blank" rel="noreferrer">Mở nguồn chính thức ↗</a></li>`).join("")}</ul>
+          <section class="network-card feed-card lesson-post lesson-section reading-section" id="doc-sau">
+            <div class="post-author"><div class="mini-avatar read">↗</div><div><strong>Đọc sâu có định hướng</strong><small>${readingItems.length} nguồn · khoảng ${totalRead} phút</small></div></div>
+            <h2>Học qua tài liệu khoa học</h2><p>Không cần đọc từ đầu đến cuối. Mỗi nguồn có một tiêu điểm và một sản phẩm đọc để biến tài liệu thành năng lực.</p>
+            <div class="reading-path">${readingItems.map((item, index) => `<article class="reading-card"><div class="reading-index"><span>${index + 1}</span><small>${item.minutes}′</small></div><div><span class="source-type">${escapeHtml(item.reference.type)}</span><h3>${escapeHtml(item.focus)}</h3><cite>${escapeHtml(item.reference.citation)}</cite><p><b>Sản phẩm đọc:</b> ${escapeHtml(item.task)}</p><a href="${item.reference.url}" target="_blank" rel="noreferrer">Mở tài liệu gốc ↗</a></div></article>`).join("")}</div>
           </section>
 
-          <div class="chapter-complete"><div><strong>Đã hoàn tất chương ${chapter.number}?</strong><small>Tiến độ được lưu cục bộ trên trình duyệt này.</small></div><button class="button complete-button ${completed ? "done" : ""}" data-id="${chapter.id}" type="button">${completed ? "✓ Đã hoàn thành" : "Đánh dấu hoàn thành"}</button></div>
+          <section class="network-card feed-card lesson-post lesson-section" id="tai-lieu">
+            <div class="post-author"><div class="mini-avatar refs">R</div><div><strong>Thư mục chương</strong><small>Nguồn chính thức và học thuật</small></div></div>
+            <ul class="reference-list">${refItems.map((ref) => `<li><span>${escapeHtml(ref.type)}</span><cite>${escapeHtml(ref.citation)}</cite><a href="${ref.url}" target="_blank" rel="noreferrer">Mở nguồn ↗</a></li>`).join("")}</ul>
+          </section>
+
+          <div class="network-card chapter-complete"><div><strong>Đã hoàn tất Chương ${chapter.number}?</strong><small>Tiến độ được lưu cục bộ trên trình duyệt này.</small></div><button class="button complete-button ${completed ? "done" : ""}" data-id="${chapter.id}" type="button">${completed ? "✓ Đã hoàn thành" : "Đánh dấu hoàn thành"}</button></div>
           <nav class="chapter-pager" aria-label="Chuyển chương">
             ${previous ? `<a class="pager-link" href="#/chapter/${previous.id}">← Chương trước<strong>${escapeHtml(previous.shortTitle)}</strong></a>` : `<a class="pager-link" href="#/home">← Trang chủ<strong>Tổng quan giáo trình</strong></a>`}
             ${next ? `<a class="pager-link" href="#/chapter/${next.id}">Chương tiếp →<strong>${escapeHtml(next.shortTitle)}</strong></a>` : `<a class="pager-link" href="#/references">Tiếp theo →<strong>Tài liệu tham khảo</strong></a>`}
           </nav>
         </article>
-        <aside class="chapter-toc" aria-label="Trong chương này"><strong>Trong chương</strong><a href="#tong-quan">Tổng quan & chuẩn đầu ra</a>${chapter.sections.map((section) => `<a href="#${section.id}">${escapeHtml(section.title)}</a>`).join("")}<a href="#case-study">Ca nghiên cứu</a><a href="#thuc-hanh">Thực hành</a><a href="#tu-kiem-tra">Tự kiểm tra</a><a href="#tai-lieu">Tài liệu</a></aside>
+
+        <aside class="network-right chapter-right-rail">
+          <nav class="network-card compact-card chapter-toc" aria-label="Trong chương này"><strong>Trong chương</strong><a href="#tong-quan">Tổng quan & đầu ra</a>${chapter.sections.map((section) => `<a href="#${section.id}">${escapeHtml(section.title)}</a>`).join("")}<a href="#case-study">Ca nghiên cứu</a><a href="#thuc-hanh">Thực hành</a><a href="#tu-kiem-tra">5 câu tự kiểm tra</a><a href="#doc-sau">Đọc sâu khoa học</a><a href="#tai-lieu">Thư mục</a></nav>
+          <section class="network-card compact-card chapter-study-tip"><p class="eyebrow">Chiến thuật</p><h3>Đọc → nhớ → làm</h3><p>Đọc một bài post, che nội dung và nói lại một phút. Sau đó làm sản phẩm đọc hoặc một câu quiz.</p></section>
+        </aside>
       </div>`;
   }
 
@@ -365,6 +430,10 @@
     const raw = location.hash.replace(/^#\/?/, "");
     const [page, id] = raw.split("/");
     document.querySelectorAll(".chapter-link").forEach((link) => link.classList.toggle("active", page === "chapter" && link.dataset.id === id));
+    document.querySelectorAll("[data-global-page]").forEach((link) => {
+      const target = link.dataset.globalPage;
+      link.classList.toggle("active", target === (page || "home") || (target === "references" && page === "glossary"));
+    });
     if (!raw || page === "home") app.innerHTML = homeView();
     else if (page === "chapter") {
       const chapter = course.chapters.find((item) => item.id === id);

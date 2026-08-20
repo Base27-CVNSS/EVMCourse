@@ -42,6 +42,7 @@ def page(title: str, body: str, *, body_class: str = "") -> str:
 
 def chapter_page(chapter) -> str:
     outcomes = "".join(f"<li>{esc(x)}</li>" for x in chapter["outcomes"])
+    memory = "".join(f"<li>{esc(x)}</li>" for x in chapter["memory"]["points"])
     sections = []
     if chapter["number"] == 1:
         sections.append('<figure><img src="images/ipof_loop.png" alt="Vòng Đầu vào, Tiến trình, Đầu ra và Phản hồi"/><figcaption>Hình 1.1. Vòng IPOF của hệ thống môi trường.</figcaption></figure>')
@@ -55,15 +56,24 @@ def chapter_page(chapter) -> str:
     for idx, quiz in enumerate(chapter["quiz"], 1):
         choices = "".join(f"<li>{esc(letter)}. {esc(option)}</li>" for letter, option in zip("ABCD", quiz["options"]))
         quiz_items.append(f"<div class=\"quiz\"><p><strong>Câu {idx}.</strong> {esc(quiz['q'])}</p><ol class=\"choices\">{choices}</ol></div>")
+    ref_map = {ref["id"]: ref for ref in COURSE["references"]}
+    reading_items = []
+    for item in chapter.get("readings", []):
+        ref = ref_map.get(item["ref"])
+        if not ref:
+            continue
+        reading_items.append(f'<article class="reading"><h3>{esc(item["minutes"])} phút · {esc(item["focus"])}</h3><p>{esc(ref["citation"])}</p><p><strong>Sản phẩm đọc:</strong> {esc(item["task"])}</p><p><a href="{esc(ref["url"])}">Mở tài liệu gốc</a></p></article>')
     body = f'''
 <header class="chapter-head"><p>Chương {chapter['number']} · {esc(chapter['duration'])} · {esc(chapter['level'])}</p>
 <h1>{esc(chapter['title'])}</h1><p class="summary">{esc(chapter['summary'])}</p></header>
 <section><h2>Chuẩn đầu ra chương</h2><ol>{outcomes}</ol></section>
+<aside><strong>Móc ghi nhớ: {esc(chapter['memory']['hook'])}</strong><ol>{memory}</ol></aside>
 {''.join(sections)}
 <section><h2>Ca nghiên cứu</h2><aside><strong>{esc(chapter['caseStudy']['title'])}.</strong> {esc(chapter['caseStudy']['body'])}</aside></section>
 <section><h2>Thực hành có hướng dẫn</h2><p><strong>{esc(chapter['lab']['code'])} · {esc(chapter['lab']['title'])}</strong></p><ol>{lab}</ol></section>
 <section><h2>Bài tập mở rộng</h2><ol>{exercises}</ol></section>
-<section><h2>Tự kiểm tra</h2>{''.join(quiz_items)}</section>'''
+<section><h2>Tự kiểm tra</h2>{''.join(quiz_items)}</section>
+<section><h2>Đọc sâu có định hướng</h2>{''.join(reading_items)}</section>'''
     return page(f"Chương {chapter['number']}. {chapter['title']}", body)
 
 

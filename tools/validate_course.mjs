@@ -19,8 +19,11 @@ const sectionIds = new Set();
 for (const chapter of course.chapters) {
   assert(chapter.outcomes.length >= 3, `Chương ${chapter.number} thiếu chuẩn đầu ra.`);
   assert(chapter.sections.length >= 4, `Chương ${chapter.number} thiếu nội dung chính.`);
-  assert(chapter.quiz.length >= 2, `Chương ${chapter.number} thiếu câu hỏi tự kiểm tra.`);
+  assert(chapter.quiz.length === 5, `Chương ${chapter.number} phải có đúng 5 câu hỏi tự kiểm tra.`);
+  assert(chapter.memory?.hook && chapter.memory?.points?.length === 4, `Chương ${chapter.number} thiếu móc ghi nhớ 4 bước.`);
+  assert(chapter.readings?.length >= 2, `Chương ${chapter.number} thiếu lộ trình đọc khoa học.`);
   assert(chapter.refs.every((id) => referenceIds.has(id)), `Chương ${chapter.number} tham chiếu ID không tồn tại.`);
+  assert(chapter.readings.every((item) => referenceIds.has(item.ref) && item.focus && item.task && item.minutes >= 10), `Lộ trình đọc ở chương ${chapter.number} không hợp lệ.`);
   for (const section of chapter.sections) {
     assert(!sectionIds.has(section.id), `Trùng ID mục: ${section.id}`);
     sectionIds.add(section.id);

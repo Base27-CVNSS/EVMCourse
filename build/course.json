@@ -1,4 +1,4 @@
-window.COURSE = {
+{
   "meta": {
     "title": "Phân tích hệ thống môi trường dựa trên AI và Mô hình LONG",
     "subtitle": "Giáo trình đại học về khoa học hệ thống, GeoAI, Digital Twin và quản trị bền vững",
@@ -2540,4 +2540,4 @@ window.COURSE = {
       "url": "https://doi.org/10.1038/s41539-023-00159-w"
     }
   ]
-};
+}

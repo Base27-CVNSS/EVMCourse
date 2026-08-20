@@ -523,6 +523,8 @@ def add_chapter(doc, chapter, ref_map):
     add_callout(doc, "Thời lượng và mức độ", f"{chapter['duration']} | {chapter['level']} | Từ khóa: {', '.join(chapter['keywords'])}")
     doc.add_heading("Chuẩn đầu ra chương", level=2)
     add_numbered_items(doc, chapter["outcomes"])
+    memory_steps = "; ".join(f"{index}. {clean(item)}" for index, item in enumerate(chapter["memory"]["points"], 1))
+    add_callout(doc, f"Móc ghi nhớ: {chapter['memory']['hook']}", memory_steps)
 
     if chapter["number"] == 1:
         doc.add_picture(str(ASSETS / "ipof_loop.png"), width=Inches(6.45))
@@ -557,6 +559,16 @@ def add_chapter(doc, chapter, ref_map):
         p.paragraph_format.keep_with_next = True
         set_run(p.add_run(f"Câu {idx}. {clean(quiz['q'])}"), bold=True, color=INK)
         add_bullet_items(doc, [f"{letter}. {clean(option)}" for letter, option in zip("ABCD", quiz["options"])], size=9.5)
+
+    doc.add_heading("Đọc sâu có định hướng", level=2)
+    for reading in chapter.get("readings", []):
+        ref = ref_map.get(reading["ref"])
+        if not ref:
+            continue
+        add_callout(doc, f"{reading['minutes']} phút | {reading['focus']}", f"{ref['citation']} Sản phẩm đọc: {reading['task']}")
+        p = doc.add_paragraph()
+        p.paragraph_format.space_after = Pt(4)
+        add_hyperlink(p, "Mở tài liệu gốc", ref["url"])
 
     doc.add_heading("Nguồn học tập chính", level=2)
     ref_paragraphs = []
@@ -691,6 +703,7 @@ def build_instructor_manual():
     for ch in COURSE["chapters"]:
         doc.add_heading(f"3.{ch['number']}. Chương {ch['number']} - {clean(ch['shortTitle'])}", level=2)
         add_callout(doc, "Trọng tâm", ch["summary"])
+        add_callout(doc, f"Móc ghi nhớ: {ch['memory']['hook']}", "; ".join(ch["memory"]["points"]))
         p = doc.add_paragraph()
         set_run(p.add_run("Ngộ nhận cần xử lý: "), bold=True, color=DARK_BLUE)
         set_run(p.add_run(misconceptions[ch["number"]]), color=INK)

@@ -1,12 +1,12 @@
-# Phát hành 2.0.0 — 20/08/2026
+# Phát hành 2.1.0 — 20/08/2026
 
-Ấn bản đại học gồm website 15 chương, hai tài liệu Word, ebook PDF và EPUB.
+Ấn bản mạng học tập nghề nghiệp gồm website 15 chương, 75 câu tự kiểm tra, móc ghi nhớ bốn bước, lộ trình đọc khoa học, hai tài liệu Word, ebook PDF và EPUB.
 
 | Tệp | SHA-256 |
 |---|---|
-| `Giao_trinh_AI_LONG.docx` | `29dd68f23aa06bc79efeea7ac8bc6b9336a51439e5a97c7bcaae988220babd7a` |
-| `So_tay_giang_vien_AI_LONG.docx` | `38a484cf9c0459e13ab198ab0c80ee26add950c5a353833271f1c88630eeae71` |
-| `Giao_trinh_AI_LONG.pdf` | `a9adb33b520ba7962f81a13fe840039dc3601e2ffe3de95e442767eb8e6bf379` |
-| `Giao_trinh_AI_LONG.epub` | `93683934f157455b7b7087b6d32d014e2a97d6e53070524f34b4abbc8d2756f9` |
+| `Giao_trinh_AI_LONG.docx` | `748e48226dd6da5f4a865ed1bf0f98a0ae6b6663214d5826b3afec42cdffee00` |
+| `So_tay_giang_vien_AI_LONG.docx` | `89bc2e4faf0778185ead3e77b892795fd82e9caff7f883511596fc812971ea15` |
+| `Giao_trinh_AI_LONG.pdf` | `d08ac96de130d081e00b7102a26f88473cb44df873a9cb51e71e3f58773579fe` |
+| `Giao_trinh_AI_LONG.epub` | `f61c7a1b9eb4d1cf74f2173292c4f99eafaf9685338b234e6639dbb84f2b8a86` |
 
-Nguồn: commit `bc393c59a77378b749da561fc4f3dcd9046ff47d` và các commit kế tiếp chỉ phục vụ triển khai/phát hành.
+Các thay đổi chính: giao diện kiểu mạng nghề nghiệp; 5 câu trắc nghiệm mỗi chương; nhiệm vụ đọc từ nguồn chính thức/bài báo có DOI; Word/PDF/EPUB đồng bộ với website.

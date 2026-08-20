@@ -19,7 +19,8 @@ Giáo trình đại học mở kết nối **khoa học hệ thống, dữ liệ
 
 Website tĩnh, không cần backend, có:
 
-- 15 chương thuộc 4 phần, mỗi chương có chuẩn đầu ra, lý thuyết, công thức, case study, thực hành, bài tập và tự kiểm tra;
+- 15 chương thuộc 4 phần, mỗi chương có chuẩn đầu ra, móc ghi nhớ bốn bước, lý thuyết, case study, thực hành, đúng 5 câu tự kiểm tra và lộ trình đọc khoa học;
+- giao diện mạng học tập nghề nghiệp lấy cảm hứng từ cách tổ chức hồ sơ–dòng nội dung–kỹ năng của LinkedIn, không sử dụng logo hoặc tài sản nhận diện của LinkedIn;
 - các chuyên đề nâng cao: PINNs, GNN, XAI, foundation models viễn thám, carbon, công bằng môi trường và Digital Twin lưu vực;
 - tìm kiếm toàn văn, lưu tiến độ cục bộ, sáng/tối, responsive, PWA và bản in;
 - mô phỏng BOD dọc sông;
