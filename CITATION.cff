@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "Nếu sử dụng giáo trình hoặc mã nguồn này, vui lòng trích dẫn như dưới đây."
+title: "Phân tích hệ thống môi trường dựa trên AI và Mô hình LONG"
+type: software
+authors:
+  - family-names: "Ngo"
+    given-names: "Long"
+version: 2.0.0
+date-released: 2026-08-20
+license: MIT
+repository-code: "https://github.com/Base27-CVNSS/EVMCourse"
+url: "https://base27-cvnss.github.io/EVMCourse/"
+abstract: "Giáo trình đại học số mở 15 chương về khoa học hệ thống, dữ liệu môi trường, GeoAI, khung LONG, carbon, công bằng môi trường và Digital Twin."

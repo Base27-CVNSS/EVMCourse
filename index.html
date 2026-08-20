@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b5d4b">
+  <meta name="description" content="Giáo trình đại học mở Phân tích hệ thống môi trường dựa trên AI và Mô hình LONG — Long Ngo.">
+  <meta name="author" content="Long Ngo">
+  <meta property="og:title" content="Phân tích hệ thống môi trường · AI · Mô hình LONG">
+  <meta property="og:description" content="Giáo trình đại học số 15 chương về hệ thống, GeoAI, carbon, công bằng môi trường và Digital Twin.">
+  <meta property="og:type" content="website">
+  <title>Phân tích hệ thống môi trường · AI · Mô hình LONG</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Bỏ qua điều hướng</a>
+
+  <header class="topbar">
+    <button class="icon-button mobile-only" id="menu-toggle" aria-label="Mở mục lục" aria-expanded="false" aria-controls="course-sidebar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <a class="brand" href="#/home" aria-label="Trang chủ giáo trình">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 44 44"><path d="M22 4 37 12v11c0 9-6.3 14.6-15 17C13.3 37.6 7 32 7 23V12L22 4Z"/><path d="M13 26c8-1 13-5 18-12-1 10-6 16-15 17"/></svg>
+      </span>
+      <span><strong>AI × Hệ thống môi trường</strong><small>Environmental Systems · LONG</small></span>
+    </a>
+    <div class="top-actions">
+      <button class="icon-button" id="search-open" aria-label="Tìm kiếm toàn giáo trình" title="Tìm kiếm (Ctrl + K)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/></svg>
+      </button>
+      <button class="icon-button" id="theme-toggle" aria-label="Đổi giao diện sáng tối" title="Giao diện sáng/tối">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9c-5 2-11-4-9-9Z"/></svg>
+      </button>
+      <a class="github-link" href="https://github.com/Base27-CVNSS/EVMCourse" target="_blank" rel="noreferrer">Mã nguồn</a>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="course-sidebar" aria-label="Mục lục giáo trình">
+      <div class="sidebar-progress">
+        <div class="progress-label"><span>Tiến độ học tập</span><strong id="progress-percent">0%</strong></div>
+        <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+        <small id="progress-detail">0/15 chương hoàn thành</small>
+      </div>
+      <nav id="chapter-nav"></nav>
+      <div class="sidebar-foot">
+        <a href="#/glossary">Thuật ngữ</a>
+        <a href="#/references">Tài liệu</a>
+        <a href="#/about">Giới thiệu</a>
+      </div>
+    </aside>
+
+    <div class="sidebar-scrim" id="sidebar-scrim" hidden></div>
+
+    <main id="main-content" tabindex="-1">
+      <div id="app" aria-live="polite"></div>
+    </main>
+  </div>
+
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <form method="dialog" class="search-shell">
+      <div class="search-head">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/></svg>
+        <label class="sr-only" for="search-input" id="search-title">Tìm trong giáo trình</label>
+        <input id="search-input" type="search" autocomplete="off" placeholder="Tìm chương, khái niệm, công thức…">
+        <button value="cancel" aria-label="Đóng tìm kiếm">Esc</button>
+      </div>
+      <div class="search-results" id="search-results"><p>Nhập ít nhất 2 ký tự để tìm kiếm.</p></div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <noscript>
+    <div class="noscript">Website cần JavaScript để hiển thị các chương và bài thực hành tương tác.</div>
+  </noscript>
+  <script src="assets/course.js" defer></script>
+  <script src="assets/app.js" defer></script>
+</body>
+</html>

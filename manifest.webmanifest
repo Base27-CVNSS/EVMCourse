@@ -1,0 +1,14 @@
+{
+  "name": "Phân tích hệ thống môi trường · AI · Mô hình LONG",
+  "short_name": "AI LONG",
+  "description": "Giáo trình đại học mở về khoa học hệ thống, GeoAI, carbon, công bằng môi trường và Digital Twin.",
+  "lang": "vi",
+  "start_url": "./#/home",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f8f5",
+  "theme_color": "#0b5d4b",
+  "icons": [
+    { "src": "assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
